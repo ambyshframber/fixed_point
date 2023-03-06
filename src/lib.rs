@@ -8,9 +8,9 @@ macro_rules! gen_fixed {
         pub struct $name<const P: i32>($inner);
 
         impl<const P: i32> $name<P> {
-            const BITS: usize = std::mem::size_of::<$inner>() * 8;
-            const MAX: Self = Self(<$inner>::MAX);
-            const MIN: Self = Self(<$inner>::MIN);
+            pub const BITS: usize = std::mem::size_of::<$inner>() * 8;
+            pub const MAX: Self = Self(<$inner>::MAX);
+            pub const MIN: Self = Self(<$inner>::MIN);
         }
 
         impl<const P: i32> From<$inner> for $name<P> {
@@ -55,8 +55,23 @@ macro_rules! gen_fixed {
     };
 }
 
+gen_fixed!(Fixed8, u8);
+gen_fixed!(FixedS8, i8);
+gen_fixed!(Fixed16, u16);
+gen_fixed!(FixedS16, i16);
 gen_fixed!(Fixed32, u32);
 gen_fixed!(FixedS32, i32);
+gen_fixed!(Fixed64, u64);
+gen_fixed!(FixedS64, i64);
+gen_fixed!(Fixed128, u128);
+gen_fixed!(FixedS128, i128);
+
+pub type U12_4 = Fixed16<4>;
+pub type U24_8 = Fixed32<8>;
+pub type U48_16 = Fixed64<16>;
+pub type S12_4 = FixedS16<4>;
+pub type S24_8 = FixedS32<8>;
+pub type S48_16 = FixedS64<16>;
 
 #[cfg(test)]
 mod tests {
